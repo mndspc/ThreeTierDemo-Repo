@@ -54,6 +54,7 @@
       <DependentUpon>Settings1.settings</DependentUpon>
     </Compile>
     <Compile Include="SP.cs" />
+    <Compile Include="UserInfoDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -12,6 +12,7 @@ namespace DAL
         SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConStr"].ConnectionString);
         SqlCommand sqlCommand = new SqlCommand();
         SqlDataReader sqlDataReader;
+       
         #endregion
         public bool Delete(object objDel)
         {
@@ -80,6 +81,42 @@ namespace DAL
         public bool Update(object objUpdate)
         {
             throw new NotImplementedException();
+        }
+
+        public List<EmpMaster> GetByName(string EmpName)
+        {
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter();
+            DataSet ds = new DataSet();
+            List<EmpMaster> empList = new List<EmpMaster>();
+            try
+            {
+                sqlCommand.Connection = sqlConnection;
+                sqlCommand.CommandText = "Select * from EmpMaster where EmpName='" + EmpName + "' ";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlDataAdapter.SelectCommand = sqlCommand;
+                sqlDataAdapter.Fill(ds, "Emp");
+                if (ds.Tables["Emp"].Rows.Count > 0)
+                {
+                    foreach(DataRow dataRow in ds.Tables["Emp"].Rows)
+                    {
+                        EmpMaster empMaster = new EmpMaster();
+                        empMaster.EmpCode = Convert.ToInt32(dataRow["EmpCode"]);
+                        empMaster.EmpName = Convert.ToString(dataRow["EmpName"]);
+                        empMaster.DateOfBirth = DateTime.Parse(dataRow["DateOfBirth"].ToString());
+                        empMaster.Email = Convert.ToString(dataRow["Email"]);
+                        empMaster.DeptCode = Convert.ToInt32(dataRow["DeptCode"]);
+                        empList.Add(empMaster);
+                    }
+                }
+                return empList;
+            }catch(Exception ex)
+            {
+                return empList;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
         }
     }
 }

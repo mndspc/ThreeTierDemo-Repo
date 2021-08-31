@@ -8,6 +8,6 @@ namespace DAL
 {
     enum SP
     {
-        SaveEmployee,DeleteEmployee,UpdateEmployee
+        SaveEmployee,DeleteEmployee,UpdateEmployee, ValiadateEmployee
     }
 }
